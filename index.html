@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+  <title>DWEC</title>
+  <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+  <script type="text/javascript" src="jquery.min.js"></script>
+  <script type="text/javascript" src="bootstrap.min.js"></script>
+  <script type="text/javascript" src="toast.js"></script>
+  <script type="text/javascript" src="datos.js"></script>
+  <script type="text/javascript" src="app.js" defer></script>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<!--APLICACION INICIAL-->
+
+  <div class="container mt-4">
+    <h1 class="display-4 text-center">
+      <div class="container" >
+        <div class="row align-items-center"></div>
+        <h2 class="display-4" > <span class="text-success">TIENDA DE QUÍMICOS</span>
+          <span class="text-danger"> DE MARCOS</span></h2>
+      </div>
+      </div>
+
+      <!-- ELEGIR ACCION A  REALIZAR-->
+      <div class="text-center">
+          <input type="button" id="ordenar_asc" value="Ordenar por fecha de llegada" class="w-5 btn btn-secondary">
+          <input type="button" id="ordenar_desc" value="Ordenar por número de protones" class="w-5 btn btn-secondary">
+          <form id="atomo-busqueda" class="mx-auto w-25 mt-3">
+            <div class="form-group">
+              <input type="text" id="busqueda" class="form-control"placeholder="Buscar por descripcion">
+            <input id="buscar" type="submit" value="Buscar" class="btn btn-info btn-block">
+          </form>
+      </div>
+
+
+      <!--LA TABLA CON LOS DATOS-->
+      <table class="table table-dark table-striped table-hover mt-3">
+        <thead>
+          <tr align="center">
+            <th>Nombre</th>
+            <th>Número de Protones</th>
+            <th>Imagen</th>
+            <th>Descripción</th>
+            <th>Tipo</th>
+            <th>Masa atómica</th>
+            <th>Enlace</th>
+            <th>¿Tóxico?</th>
+            <th>Fecha de llegada</th>
+          </tr>
+        </thead>
+        <tbody id="atomo-list" >
+          
+        </tbody>
+      </table>
+
+      <!-- MENSAJE EMERGENTE-->
+      <div id="mensaje" style="z-index: 9999;" class="fixed-top  mx-auto mt-5 toast text-center" data-delay="3000" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header w-100">
+          <img src="info.jpg" width="8%" class="mr-2" >
+          <strong class="w-100 mr-auto">Mensaje informativo</strong>
+        </div>
+      </div>
+
+      <!--MODAL PARA EDITAR-->
+      <div class="modal fade" id="editarModal" tabindex="-1" role="dialog" aria-labelledby="editarModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class=" modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editarModalLabel">Editar datos de coche</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="atomo-editar">
+                <input type="hidden" id="claveAtomo">
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">Nombre</label>
+                  <input type="text" class="form-control" id="editarNombre">
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">Numero de protonoes</label>
+                  <input type="text" class="form-control" id="editarProtones">
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">Imagen</label>
+                  <input type="text" class="form-control" id="editarImagen">
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">Descripcion</label>
+                  <input type="text" class="form-control" id="editarDescripcion">
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">Tipo</label>
+                  <input type="text"class="form-control" id="editarTipo">
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">Masa</label>
+                  <input type="text"class="form-control" id="editarMasa">
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">Enlace</label>
+                  <input type="text"class="form-control" id="editarEnlace">
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">Toxicidad</label>
+                  <select name="toxicidad" id="editarToxicidad">
+                    <option value="true">Si</option>
+                    <option value="false">No</option>
+                  </select>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cancelar">
+              <input type="submit" id="editar" class="btn btn-warning" value="Actualizar datos">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AÑADIR COCHE NUEVO-->
+      <h2 class="display-5 text-primary" >AÑADIR NUEVO ELEMENTO</h2>
+      <form id="atomo-formu" class="añadir mx-auto w-25 mt-3">
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="protones">Número de protones</label>
+          <input type="text" id="protones" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="imagen">Imagen</label>
+          <input type="text" id="imagen" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="descripcion">Descripción</label>
+          <input type="text" id="descripcion" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="tipo">Tipo</label>
+          <input type="text" id="tipo" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="masa">Masa</label>
+          <input type="text" id="masa" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="enlace">Enlace</label>
+          <input type="text" id="enlace" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="message-text" class="col-form-label">Toxicidad</label>
+          <select name="toxicidad" id="toxicidad">
+            <option value="true">Si</option>
+            <option value="false">No</option>
+          </select>
+        </div>
+        <input id="nuevo" type="submit" value="Añadir nuevo Elemento" class="btn btn-warning btn-block">
+      </form>
+      <!-- FIN MODAL PARA EDITAR-->
+      
+</body>
+</html>
